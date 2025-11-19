@@ -18,7 +18,7 @@
 use anyhow::Context;
 use nautilus_core::nanos::UnixNanos;
 use nautilus_model::{
-    data::{BookOrder, OrderBookDelta, QuoteTick, TradeTick},
+    data::{Bar, BarType, BookOrder, OrderBookDelta, QuoteTick, TradeTick},
     enums::{AggressorSide, BookAction, OrderSide},
     identifiers::{InstrumentId, TradeId},
     instruments::{Instrument, any::InstrumentAny},
@@ -28,7 +28,8 @@ use nautilus_model::{
 use crate::{
     common::enums::KrakenOrderSide,
     websocket::messages::{
-        KrakenWsBookData, KrakenWsBookLevel, KrakenWsTickerData, KrakenWsTradeData,
+        KrakenWsBookData, KrakenWsBookLevel, KrakenWsOhlcData, KrakenWsTickerData,
+        KrakenWsTradeData,
     },
 };
 
@@ -182,6 +183,42 @@ pub fn parse_book_deltas(
     }
 
     Ok(deltas)
+}
+
+/// Parses Kraken WebSocket OHLC data into a Nautilus bar.
+///
+/// # Errors
+///
+/// Returns an error if:
+/// - OHLC values cannot be parsed.
+/// - Timestamp is invalid.
+/// - Bar construction fails validation.
+pub fn parse_bar(
+    ohlc: &KrakenWsOhlcData,
+    instrument: &InstrumentAny,
+    bar_type: BarType,
+    ts_init: UnixNanos,
+) -> anyhow::Result<Bar> {
+    let price_precision = instrument.price_precision();
+    let size_precision = instrument.size_precision();
+
+    let open = Price::new_checked(ohlc.open, price_precision)
+        .with_context(|| format!("Failed to construct open Price with precision {price_precision}"))?;
+    let high = Price::new_checked(ohlc.high, price_precision)
+        .with_context(|| format!("Failed to construct high Price with precision {price_precision}"))?;
+    let low = Price::new_checked(ohlc.low, price_precision)
+        .with_context(|| format!("Failed to construct low Price with precision {price_precision}"))?;
+    let close = Price::new_checked(ohlc.close, price_precision).with_context(|| {
+        format!("Failed to construct close Price with precision {price_precision}")
+    })?;
+    let volume = Quantity::new_checked(ohlc.volume, size_precision).with_context(|| {
+        format!("Failed to construct volume Quantity with precision {size_precision}")
+    })?;
+
+    let ts_event = parse_rfc3339_timestamp(&ohlc.timestamp, "ohlc.timestamp")?;
+
+    Bar::new_checked(bar_type, open, high, low, close, volume, ts_event, ts_init)
+        .context("Failed to construct Bar from Kraken WebSocket OHLC")
 }
 
 #[allow(clippy::too_many_arguments)]

@@ -30,6 +30,7 @@ extension-module = [
   "nautilus-bitmex/extension-module",
   "nautilus-blockchain?/extension-module",
   "nautilus-bybit/extension-module",
+  "nautilus-coinbase/extension-module",
   "nautilus-coinbase-intx/extension-module",
   "nautilus-common/extension-module",
   "nautilus-core/extension-module",
@@ -91,6 +92,7 @@ nautilus-blockchain = { workspace = true, features = [
   "python",
 ], optional = true }
 nautilus-bybit = { workspace = true, features = ["python"] }
+nautilus-coinbase = { workspace = true, features = ["python"] }
 nautilus-coinbase-intx = { workspace = true, features = ["python"] }
 nautilus-databento = { workspace = true, features = ["python"] }
 nautilus-dydx = { workspace = true, features = ["python"] }

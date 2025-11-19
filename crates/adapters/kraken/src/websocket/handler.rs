@@ -387,8 +387,13 @@ impl FeedHandler {
         _msg: KrakenWsMessage,
         _ts_init: UnixNanos,
     ) -> Option<NautilusWsMessage> {
-        // OHLC/Bar parsing not yet implemented in parse.rs
-        tracing::debug!("OHLC message received but parsing not yet implemented");
+        // TODO: Implement OHLC bar parsing
+        // The parse::parse_bar function is ready to use, but we need:
+        // 1. Track bar type subscriptions (interval -> BarType mapping)
+        // 2. Extract instrument from OHLC data
+        // 3. Match OHLC message to the correct BarType based on interval
+        // 4. Parse and emit bars using parse::parse_bar
+        tracing::debug!("OHLC message received but subscription tracking not yet implemented");
         None
     }
 }

@@ -2,14 +2,18 @@
 resolver = "2"
 members = [
   "crates",
+  "crates/adapters/aster",
+  "crates/adapters/bitget",
   "crates/adapters/bitmex",
   "crates/adapters/blockchain",
   "crates/adapters/bybit",
+  "crates/adapters/coinbase",
   "crates/adapters/coinbase_intx",
   "crates/adapters/databento",
   "crates/adapters/dydx",
   "crates/adapters/hyperliquid",
   "crates/adapters/kraken",
+  "crates/adapters/kucoin",
   "crates/adapters/okx",
   "crates/adapters/tardis",
   "crates/analysis",
@@ -81,14 +85,18 @@ nautilus-trading = { path = "crates/trading", version = "0.52.0" }
 # -----------------------------------------------------------------------------
 # Adapters
 # -----------------------------------------------------------------------------
+nautilus-aster = { path = "crates/adapters/aster", version = "0.52.0" }
+nautilus-bitget = { path = "crates/adapters/bitget", version = "0.52.0" }
 nautilus-blockchain = { path = "crates/adapters/blockchain", version = "0.52.0" }
 nautilus-bybit = { path = "crates/adapters/bybit", version = "0.52.0" }
+nautilus-coinbase = { path = "crates/adapters/coinbase", version = "0.52.0" }
 nautilus-coinbase-intx = { path = "crates/adapters/coinbase_intx", version = "0.52.0" }
 nautilus-bitmex = { path = "crates/adapters/bitmex", version = "0.52.0" }
 nautilus-databento = { path = "crates/adapters/databento", version = "0.52.0" }
 nautilus-dydx = { path = "crates/adapters/dydx", version = "0.52.0" }
 nautilus-hyperliquid = { path = "crates/adapters/hyperliquid", version = "0.52.0" }
 nautilus-kraken = { path = "crates/adapters/kraken", version = "0.52.0" }
+nautilus-kucoin = { path = "crates/adapters/kucoin", version = "0.52.0" }
 nautilus-okx = { path = "crates/adapters/okx", version = "0.52.0" }
 nautilus-tardis = { path = "crates/adapters/tardis", version = "0.52.0" }
 

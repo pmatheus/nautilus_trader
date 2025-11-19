@@ -1,0 +1,71 @@
+[package]
+name = "nautilus-aster"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "NautilusTrader adapter for Aster DEX"
+documentation = "https://nautilustrader.io"
+
+[lib]
+name = "nautilus_aster"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+# Binary examples to be added later
+# [[bin]]
+# name = "http_public"
+# path = "bin/http_public.rs"
+# required-features = ["tokio"]
+
+[dependencies]
+nautilus-core = { workspace = true }
+nautilus-model = { workspace = true }
+nautilus-network = { workspace = true }
+nautilus-common = { workspace = true }
+
+# Alloy for EVM signing
+alloy-primitives = { workspace = true }
+alloy-signer = { workspace = true }
+alloy-signer-local = { workspace = true }
+alloy-sol-types = "1.4.1"
+
+# Serialization
+serde = { workspace = true }
+serde_json = { workspace = true }
+serde_urlencoded = { workspace = true }
+rmp-serde = { workspace = true }
+
+# HTTP
+reqwest = { workspace = true }
+
+# Async
+tokio = { workspace = true, optional = true }
+tokio-tungstenite = { workspace = true, optional = true }
+futures-util = { workspace = true }
+
+# WebSocket
+# tungstenite will be added when WebSocket is implemented
+
+# Utilities
+thiserror = { workspace = true }
+tracing = { workspace = true }
+anyhow = { workspace = true }
+indexmap = { workspace = true }
+rust_decimal = { workspace = true }
+chrono = { workspace = true }
+hex = { workspace = true }
+url = { workspace = true }
+ustr = { workspace = true }
+zeroize = { workspace = true }
+
+# Python bindings
+pyo3 = { workspace = true, optional = true }
+pyo3-async-runtimes = { workspace = true, optional = true }
+
+[dev-dependencies]
+rstest = { workspace = true }
+tokio = { workspace = true, features = ["full"] }
+
+[features]
+default = ["tokio"]
+python = ["pyo3", "pyo3-async-runtimes", "nautilus-common/python", "nautilus-core/python", "nautilus-model/python"]
+extension-module = ["python", "pyo3/extension-module"]
