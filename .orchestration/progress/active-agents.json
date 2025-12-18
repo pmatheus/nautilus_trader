@@ -1,0 +1,15 @@
+{
+  "agents": [
+    {"id": "aa523b4", "task": "INFRA-002", "status": "running", "started": "2025-12-18T19:34:00Z"},
+    {"id": "acc9664", "task": "INFRA-003", "status": "running", "started": "2025-12-18T19:34:00Z"},
+    {"id": "a0069b4", "task": "L3-002", "status": "running", "started": "2025-12-18T19:34:00Z"},
+    {"id": "aac491f", "task": "ADAPT-BITGET-002", "status": "running", "started": "2025-12-18T19:34:00Z"},
+    {"id": "aa59a19", "task": "ADAPT-HL-001", "status": "running", "started": "2025-12-18T19:30:00Z"}
+  ],
+  "completed": [
+    {"id": "a0384db", "task": "INFRA-001", "status": "completed"},
+    {"id": "a623be8", "task": "L3-001", "status": "completed"},
+    {"id": "a5c821e", "task": "ADAPT-BITGET-001", "status": "completed"},
+    {"id": "ac1fc40", "task": "ADAPT-KRAKEN-001", "status": "completed"}
+  ]
+}

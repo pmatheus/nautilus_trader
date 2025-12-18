@@ -1,0 +1,13 @@
+{
+  "task_id": "ADAPT-BITGET-001",
+  "status": "completed",
+  "files_created": [
+    "/home/user/nautilus_trader/nautilus_trader/adapters/bitget/__init__.py",
+    "/home/user/nautilus_trader/nautilus_trader/adapters/bitget/config.py",
+    "/home/user/nautilus_trader/nautilus_trader/adapters/bitget/constants.py",
+    "/home/user/nautilus_trader/nautilus_trader/adapters/bitget/enums.py"
+  ],
+  "files_modified": [],
+  "errors": [],
+  "notes": "Successfully created Bitget adapter skeleton following NautilusTrader patterns. Key features: (1) Three-part authentication with api_key, api_secret, and passphrase matching Bitget's API requirements. (2) Product type enums for SPOT, USDT_FUTURES, USDC_FUTURES, and COIN_FUTURES. (3) Margin mode (crossed/isolated) and position mode (one_way/hedge) enums for futures trading. (4) Separate HTTP and WebSocket base URLs for public and private streams. (5) Config classes follow Bybit/Binance patterns with retry logic, proxy support, and testnet flags. (6) Total 311 lines of code across 4 files. Ready for next phase: HTTP client implementation."
+}

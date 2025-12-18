@@ -1,0 +1,69 @@
+[package]
+name = "nautilus-iceberg"
+readme = "README.md"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "Apache Iceberg integration for the Nautilus trading platform"
+categories.workspace = true
+keywords.workspace = true
+documentation.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+[lints]
+workspace = true
+
+[lib]
+name = "nautilus_iceberg"
+crate-type = ["rlib", "staticlib", "cdylib"]
+
+[features]
+default = []
+extension-module = [
+  "nautilus-core/extension-module",
+  "nautilus-model/extension-module",
+  "python",
+  "pyo3/extension-module",
+]
+ffi = ["nautilus-core/ffi", "nautilus-model/ffi"]
+python = [
+  "nautilus-core/ffi",
+  "nautilus-core/python",
+  "nautilus-model/python",
+  "pyo3",
+]
+high-precision = ["nautilus-model/high-precision"]
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
+[dependencies]
+nautilus-common = { workspace = true }
+nautilus-core = { workspace = true, features = ["ffi"] }
+nautilus-model = { workspace = true, features = ["stubs"] }
+
+anyhow = { workspace = true }
+arrow = { workspace = true }
+chrono = { workspace = true }
+futures = { workspace = true }
+log = { workspace = true }
+object_store = { workspace = true }
+parquet = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true }
+
+pyo3 = { workspace = true, optional = true }
+
+[dev-dependencies]
+nautilus-testkit = { workspace = true }
+
+pretty_assertions = { workspace = true }
+rstest = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["test-util"] }

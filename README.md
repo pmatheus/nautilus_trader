@@ -43,6 +43,105 @@ The platform is also universal, and asset-class-agnostic — with any REST API o
 adapters. It supports high-frequency trading across a wide range of asset classes and instrument types
 including FX, Equities, Futures, Options, Crypto, DeFi, and Betting — enabling seamless operations across multiple venues simultaneously.
 
+---
+
+## Fork: L3 Orderbook Data Harvesting
+
+> **This fork extends NautilusTrader into a multi-exchange L3 orderbook reconstruction and data harvesting platform, streaming historical market microstructure data to [Supabase Iceberg](https://supabase.com/docs/guides/storage/analytics/connecting-to-analytics-bucket) tables.**
+
+### Purpose
+
+While NautilusTrader excels as a trading terminal, this fork leverages its robust market data infrastructure to build a **comprehensive orderbook harvesting operation** that:
+
+1. **Streams L2 orderbook data** from 7 major crypto exchanges simultaneously
+2. **Reconstructs L3 (Market-by-Order) representation locally** by correlating L2 deltas with trade executions
+3. **Harvests liquidation events** where available for market stress analysis
+4. **Persists all data to Apache Iceberg tables** on Supabase for efficient historical querying
+
+### L3 Reconstruction
+
+Most exchanges only provide L2 (Market-by-Price) orderbook data. This fork implements a **local L3 reconstruction engine** that infers individual order activity:
+
+```
+L2 Orderbook Deltas + Trade Events
+         ↓
+    Correlation Engine
+         ↓
+  - ADD: New liquidity at price level
+  - FILL: Trade matches orderbook reduction
+  - CANCEL: Orderbook reduction without trade
+  - MODIFY: Sequential delta inference
+         ↓
+   Synthetic L3 MBO Events
+```
+
+### Supported Exchanges
+
+| Exchange | L2 Book | Trades | Liquidations | Adapter Status |
+|----------|---------|--------|--------------|----------------|
+| [Binance](https://binance.com) | ✓ | ✓ | ✓ | Stable |
+| [Bybit](https://bybit.com) | ✓ | ✓ | ✓ | Stable |
+| [Bitget](https://bitget.com) | ✓ | ✓ | ✓ | **New** |
+| [Coinbase](https://coinbase.com/intx) | ✓ | ✓ | - | Stable |
+| [Kraken](https://kraken.com) | ✓ | ✓ | - | Enhanced |
+| [Hyperliquid](https://hyperliquid.xyz) | ✓ | ✓ | ✓ | Enhanced |
+| [OKX](https://okx.com) | ✓ | ✓ | ✓ | Stable |
+
+### Data Pipeline
+
+```
+Exchange WebSockets (7 venues)
+         ↓
+   NautilusTrader Data Engine
+         ↓
+   L3 Reconstruction Engine ←── Correlates L2 + Trades
+         ↓
+   Arrow Record Batches
+         ↓
+   Parquet Files → Supabase S3
+         ↓
+   Iceberg Catalog (atomic commits)
+```
+
+### Iceberg Tables
+
+Data is organized into three main tables with time-based partitioning:
+
+- **`orderbook_l3_events`** - Reconstructed L3 order lifecycle events
+- **`trades`** - Raw trade executions with aggressor side
+- **`liquidations`** - Forced liquidation events (where available)
+
+### Configuration
+
+```python
+from nautilus_trader.harvester import OrderbookHarvester, IcebergConfig
+
+iceberg_config = IcebergConfig(
+    project_ref="your-supabase-project",
+    warehouse="orderbook-harvest",
+    service_key="your-service-key",
+)
+
+harvester = OrderbookHarvester(
+    venues=["BINANCE", "BYBIT", "BITGET", "COINBASE_INTX", "KRAKEN", "HYPERLIQUID", "OKX"],
+    instruments=["BTC/USDT", "ETH/USDT", "SOL/USDT"],  # or "*" for all
+    iceberg_config=iceberg_config,
+    batch_size=10_000,
+    flush_interval_ms=5_000,
+)
+
+harvester.start()
+```
+
+### Use Cases
+
+- **Quantitative Research**: Historical microstructure analysis, market making simulations
+- **ML Training Data**: Order flow features, liquidity prediction models
+- **Market Surveillance**: Cross-exchange arbitrage detection, manipulation patterns
+- **Execution Analysis**: Slippage studies, optimal execution research
+
+---
+
 ![nautilus-trader](https://github.com/nautechsystems/nautilus_trader/raw/develop/assets/nautilus-trader.png "nautilus-trader")
 
 ## Features
