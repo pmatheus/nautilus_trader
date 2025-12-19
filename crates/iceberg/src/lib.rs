@@ -52,6 +52,7 @@ pub mod catalog;
 pub mod config;
 pub mod schema;
 pub mod sink;
+pub mod types;
 pub mod writer;
 
 #[cfg(feature = "python")]

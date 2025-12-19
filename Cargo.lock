@@ -4879,6 +4879,54 @@ dependencies = [
 ]
 
 [[package]]
+name = "nautilus-bitget"
+version = "0.52.0"
+dependencies = [
+ "ahash 0.8.12",
+ "anyhow",
+ "arc-swap",
+ "async-stream",
+ "async-trait",
+ "aws-lc-rs",
+ "axum",
+ "base64 0.22.1",
+ "chrono",
+ "criterion",
+ "dashmap",
+ "derive_builder",
+ "futures-util",
+ "hex",
+ "nautilus-common",
+ "nautilus-core",
+ "nautilus-data",
+ "nautilus-execution",
+ "nautilus-model",
+ "nautilus-network",
+ "nautilus-testkit",
+ "pyo3",
+ "pyo3-async-runtimes",
+ "reqwest",
+ "rstest",
+ "rust_decimal",
+ "rust_decimal_macros",
+ "serde",
+ "serde_json",
+ "serde_repr",
+ "serde_urlencoded",
+ "strum",
+ "thiserror 2.0.17",
+ "tokio",
+ "tokio-tungstenite",
+ "tokio-util",
+ "tracing",
+ "tracing-subscriber",
+ "tracing-test",
+ "url",
+ "ustr",
+ "zeroize",
+]
+
+[[package]]
 name = "nautilus-bitmex"
 version = "0.52.0"
 dependencies = [
@@ -5361,6 +5409,35 @@ dependencies = [
 ]
 
 [[package]]
+name = "nautilus-iceberg"
+version = "0.52.0"
+dependencies = [
+ "anyhow",
+ "arrow",
+ "bytes",
+ "chrono",
+ "futures",
+ "log",
+ "nautilus-common",
+ "nautilus-core",
+ "nautilus-model",
+ "nautilus-testkit",
+ "object_store",
+ "parking_lot",
+ "parquet",
+ "pretty_assertions",
+ "pyo3",
+ "reqwest",
+ "rstest",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "thiserror 2.0.17",
+ "tokio",
+ "uuid",
+]
+
+[[package]]
 name = "nautilus-indicators"
 version = "0.52.0"
 dependencies = [
@@ -5457,6 +5534,21 @@ dependencies = [
  "url",
  "ustr",
  "zeroize",
+]
+
+[[package]]
+name = "nautilus-l3-engine"
+version = "0.52.0"
+dependencies = [
+ "ahash 0.8.12",
+ "anyhow",
+ "indexmap 2.12.1",
+ "nautilus-core",
+ "nautilus-model",
+ "rstest",
+ "serde",
+ "thiserror 2.0.17",
+ "tracing",
 ]
 
 [[package]]
